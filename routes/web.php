@@ -19,6 +19,7 @@ Route::get('/',[App\http\Controllers\DashboardController::class, 'index'])->midd
 Auth::routes(['register' => false]);
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::resource('/product', App\Http\Controllers\ProductController::class);
-Route::resource('/product-gallery', App\Http\Controllers\ProductGalleryController::class);
+Route::get('/product/{id}/gallery',[App\Http\Controllers\ProductController::class, 'gallery'])->name('product.gallery')->middleware('auth');
+Route::resource('/product', App\Http\Controllers\ProductController::class)->middleware('auth');
+Route::resource('/product-galleries', App\Http\Controllers\ProductGalleryController::class)->middleware('auth');
+Route::resource('/transaction', App\Http\Controllers\TransactionController::class)->middleware('auth');

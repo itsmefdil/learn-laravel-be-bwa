@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\ProductGallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $items = Product::all();
@@ -64,7 +66,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = Product::find($id);
+        return view('pages.products.edit')->with(['item' => $item]);
     }
 
     /**
@@ -74,9 +77,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        //
+        $data = request()->all();
+        $data['slug'] = Str::slug($data['name']);
+
+        $item = Product::find($id);
+        $item->update($data);
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -87,6 +96,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Product::Find($id);
+        $item->delete();
+
+        ProductGallery::where('products_id',$id)->delete();
+        return redirect()->route('product.index');
+    }
+
+    public function gallery(Request $request,$id){
+        $product = Product::findOrFail($id);
+        $item = ProductGallery::with('product')->where('products_id',$id)->get();
+        return view('pages.products.gallery')->with(['product'=> $product,'items' => $item]);
     }
 }

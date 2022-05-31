@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProductGallery;
-use App\Http\Requests\ProductGalleryRequest;
-use App\Http\Requests\ProductRequest;
-use App\Models\Product;
+use App\Models\Transaction;
+use App\Models\TransactionDetail;
 
-class ProductGalleryController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,8 @@ class ProductGalleryController extends Controller
      */
     public function index()
     {
-        $item = ProductGallery::with('product')->get();
-
-        return view('pages.product-galleries.index')->with(['items' => $item]);
+        $items = Transaction::all();
+        return view('pages.transactions.index')->with(['items' => $items]);
     }
 
     /**
@@ -29,8 +26,7 @@ class ProductGalleryController extends Controller
      */
     public function create()
     {
-        $item = Product::all();
-        return view('pages.product-galleries.create')->with(['items' => $item]);
+        //
     }
 
     /**
@@ -39,13 +35,9 @@ class ProductGalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductGalleryRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
-        $data['photo'] = $request->file('photo')->store('assets/product','public');
-
-        ProductGallery::create($data);
-        return redirect()->route('product-galleries.index')->with('success', 'Data berhasil ditambahkan');
+        //
     }
 
     /**
@@ -90,8 +82,6 @@ class ProductGalleryController extends Controller
      */
     public function destroy($id)
     {
-        $item = ProductGallery::find($id);
-        $item->delete();
-        return redirect()->route('product-galleries.index')->with('success', 'Data berhasil dihapus');
+        //
     }
 }
