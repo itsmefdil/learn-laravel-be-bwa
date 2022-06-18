@@ -22,4 +22,5 @@ Auth::routes(['register' => false]);
 Route::get('/product/{id}/gallery',[App\Http\Controllers\ProductController::class, 'gallery'])->name('product.gallery')->middleware('auth');
 Route::resource('/product', App\Http\Controllers\ProductController::class)->middleware('auth');
 Route::resource('/product-galleries', App\Http\Controllers\ProductGalleryController::class)->middleware('auth');
+Route::get('transaction/{id}/set-status',[App\Http\Controllers\TransactionController::class,'setStatus'])->name('transaction.status');
 Route::resource('/transaction', App\Http\Controllers\TransactionController::class)->middleware('auth');

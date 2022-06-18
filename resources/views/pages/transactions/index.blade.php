@@ -32,23 +32,37 @@
                                     <td>{{ $item->number }}</td>
                                     <td>{{ $item->transaction_total }}</td>
                                     <td>
-                                        @if({{ $item->transaction_status }} == 'PENDING')
-                                            <span class="badge badge-info">
-                                                <i class="fa fa-info"></i>
-                                        @elseif({{ $item->transaction_status }} == 'SUCCESS')
-                                            <span class="badge badge-success">
-                                                <i class="fa fa-check"></i>
-                                        @elseif({{ $item->transaction_status }} == 'FAILED')
-                                            <span class="badge badge-danger">
-                                                <i class="fa fa-times"></i>
+                                        @if($item->transaction_status =='PENDING')
+                                            <span class="badge badge-info"><i class="fa fa-circle-thin" aria-hidden="true"></i>
+                                        @elseif ($item->transaction_status =='SUCCESS')
+                                            <span class="badge badge-success"><i class="fa fa-check"></i>
+                                        @elseif ($item->transaction_status =='FAILED')
+                                            <span class="badge badge-danger"><i class="fa fa-times"></i>
                                         @else
                                             <span>
                                         @endif
-                                                {{ $this->transacation_status }}
-                                            </span>
+                                            {{ $item->transaction_status }}
+                                        </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('transaction.edit',$item->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil"> </i> </a>
+                                        @if($item->transaction_status == 'PENDING')
+                                            <a href="{{ route('transaction.status',$item->id) }}?status=SUCCESS" class="btn btn-success btn-sm">
+                                                <i class="fa fa-check"></i>
+                                            </a>
+                                            <a href="{{ route('transaction.status',$item->id) }}?status=FAILED" class="btn btn-warning btn-sm">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        @endif
+                                        <a
+                                        href="#mymodal"
+                                        data-remote="{{ route('transaction.show',$item->id) }}"
+                                        data-toggle="modal"
+                                        data-target="#mymodal"
+                                        data-title="Detail Transaksi {{ $item->uuid }}"
+                                        class="btn btn-info btn-sm">
+                                        <i class="fa fa-eye"> </i></a>
+
+
                                         <a href="{{ route('transaction.edit',$item->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil"> </i> </a>
                                         <form action="{{ route('transaction.destroy', $item->id) }}" class="d-inline" method="post">
                                             @csrf
@@ -58,6 +72,7 @@
                                     </td>
 
                                 </tr>
+
                                 @empty
                                 <tr>
                                     <td colspan="6" class="text-center">Tidak ada data</td>

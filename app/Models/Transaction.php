@@ -12,7 +12,7 @@ class Transaction extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'uuid','name','email','number','address','total','status'
+        'uuid','name','email','number','address','transaction_total','transaction_status'
     ];
 
     protected $hidden = [
@@ -20,6 +20,6 @@ class Transaction extends Model
     ];
 
     public function details(){
-        return $this->hasMany(TransactionDetail::class,'transaction_id','id');
+        return $this->hasMany(TransactionDetail::class,'transaction_id');
     }
 }
