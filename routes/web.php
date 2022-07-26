@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['register' => true]);
 
-Route::get('/',[App\http\Controllers\DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/',[DashboardController::class,'index'])->name('dashboard')->middleware('auth');
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/product/{id}/gallery',[App\Http\Controllers\ProductController::class, 'gallery'])->name('product.gallery')->middleware('auth');
 Route::resource('/product', App\Http\Controllers\ProductController::class)->middleware('auth');
