@@ -15,7 +15,7 @@ class CreateTransactionDetailsTable extends Migration
     {
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('transcation_id');
+            $table->integer('transaction_id');
             $table->integer('products_id');
 
             $table->softDeletes();
